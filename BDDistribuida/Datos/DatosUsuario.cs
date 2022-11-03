@@ -37,7 +37,10 @@ namespace BDDistribuida.Datos
                             {
                                 instancias.Add(new Instancia("Kevin"));
                             }
-                            instancias.Add(new Instancia(dr[1].ToString()));
+                            else if (dr[1].ToString() != "SITIOC")
+                            {
+                                instancias.Add(new Instancia(dr[1].ToString()));
+                            }
                         }
                     }
                 }
@@ -132,7 +135,7 @@ namespace BDDistribuida.Datos
                 List<Instancia> tablas = new List<Instancia>();
                 if (instancia.Nombre != "Kevin")
                 {
-                    instancia.Nombre = "Kevin\\" + instancia;
+                    instancia.Nombre = "Kevin\\" + instancia.Nombre;
                 }
                 using (SqlConnection connection = new SqlConnection("Data Source=" + instancia.Nombre + ";Initial Catalog=Master;Integrated Security=True"))
                 {
@@ -140,7 +143,7 @@ namespace BDDistribuida.Datos
                     SqlCommand cmd = new SqlCommand();
                     cmd.Connection = connection;
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @"use["+instancia.BaseDatos+"] select t.COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS t where t.TABLE_CATALOG = N'Northwind' and t.TABLE_NAME = N'CUSTOMERS';";
+                    cmd.CommandText = @"use["+instancia.BaseDatos+"] select t.COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS t where t.TABLE_CATALOG = N'"+instancia.BaseDatos+"' and t.TABLE_NAME = N'"+instancia.Tabla+"';";
                     using (var dr = cmd.ExecuteReader())
                     {
                         while (dr.Read())

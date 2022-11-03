@@ -28,7 +28,6 @@ namespace BDDistribuida
             dataGridView_BD.DataSource = baseDatos;
             dataGridView_BD.Columns["Tabla"].Visible = false;
             dataGridView_BD.Columns["BaseDatos"].Visible = false;
-
         }
 
         private void BaseDatos_FormClosed(object sender, FormClosedEventArgs e)
@@ -51,6 +50,9 @@ namespace BDDistribuida
 
         private void CargarTablas(string bd)
         {
+            label_Consulta.Text = "Select";
+            dataGridView_Datos.DataSource = null;
+            dataGridView_Columnas.DataSource = null;
             dataGridView_Datos.DataSource = null;
             dataGridView_Datos.DataSource = NegocioInstancias.DevolverTablas(bd,instancia.Nombre);
             dataGridView_Datos.Columns["Tabla"].Visible = false;
@@ -61,7 +63,7 @@ namespace BDDistribuida
         {
             try
             {
-                instancia.Tabla = dataGridView_BD.Rows[e.RowIndex].Cells["Nombre"].Value.ToString();
+                instancia.Tabla = dataGridView_Datos.Rows[e.RowIndex].Cells["Nombre"].Value.ToString();
                 CargarColumnas(instancia.Tabla);
             }
             catch (Exception ex)
@@ -72,10 +74,36 @@ namespace BDDistribuida
 
         private void CargarColumnas(string tabla)
         {
+            label_Consulta.Text = "Select";
             dataGridView_Columnas.DataSource = null;
             dataGridView_Columnas.DataSource = NegocioInstancias.DevolverColumnas(instancia);
             dataGridView_Columnas.Columns["Tabla"].Visible = false;
             dataGridView_Columnas.Columns["BaseDatos"].Visible = false;
+        }
+
+        private void dataGridView_Columnas_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                var c = dataGridView_Columnas.Rows[e.RowIndex].Cells["Nombre"].Value.ToString();
+                if (label_Consulta.Text.Length != 6)
+                {
+                    label_Consulta.Text += " ," + c;
+                }
+                else
+                {
+                    label_Consulta.Text += " " + c;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+            label_Consulta.Text = "Select";
         }
     }
 }

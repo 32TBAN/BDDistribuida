@@ -36,6 +36,9 @@
             this.dataGridView_Datos = new System.Windows.Forms.DataGridView();
             this.label4 = new System.Windows.Forms.Label();
             this.dataGridView_Columnas = new System.Windows.Forms.DataGridView();
+            this.label_Consulta = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Datos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Columnas)).BeginInit();
@@ -73,20 +76,20 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(87, 228);
+            this.richTextBox1.Location = new System.Drawing.Point(15, 270);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(250, 46);
             this.richTextBox1.TabIndex = 3;
-            this.richTextBox1.Text = "";
+            this.richTextBox1.Text = "Where";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 228);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(69, 13);
+            this.label3.Size = new System.Drawing.Size(72, 13);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Aguegar filtro";
+            this.label3.Text = "Aguegar filtro ";
             // 
             // dataGridView_Datos
             // 
@@ -117,12 +120,44 @@
             this.dataGridView_Columnas.Name = "dataGridView_Columnas";
             this.dataGridView_Columnas.Size = new System.Drawing.Size(155, 119);
             this.dataGridView_Columnas.TabIndex = 7;
+            this.dataGridView_Columnas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Columnas_CellClick);
+            // 
+            // label_Consulta
+            // 
+            this.label_Consulta.AutoSize = true;
+            this.label_Consulta.Location = new System.Drawing.Point(12, 254);
+            this.label_Consulta.Name = "label_Consulta";
+            this.label_Consulta.Size = new System.Drawing.Size(37, 13);
+            this.label_Consulta.TabIndex = 8;
+            this.label_Consulta.Text = "Select";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(367, 74);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(103, 13);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Escoja las columnas";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(476, 74);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(14, 13);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "X";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // BaseDatos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(534, 292);
+            this.ClientSize = new System.Drawing.Size(534, 328);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label_Consulta);
             this.Controls.Add(this.dataGridView_Columnas);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dataGridView_Datos);
@@ -153,5 +188,8 @@
         private System.Windows.Forms.DataGridView dataGridView_Datos;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView dataGridView_Columnas;
+        private System.Windows.Forms.Label label_Consulta;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }
