@@ -35,9 +35,14 @@ namespace BDDistribuida
 
         private void dataGridView_BD_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (true)
+            try
             {
-
+                var num = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Num"].Value.ToString());
+                BuscarBodega(num);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
             }
         }
     }
