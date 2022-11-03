@@ -71,12 +71,86 @@ namespace BDDistribuida.Datos
                     {
                         while (dr.Read())
                         {
-                            baseDatos.Add(new Instancia(dr["name"].ToString()));
+                            if (dr["name"].ToString() != "tempdb" && dr["name"].ToString() != "model"
+                                && dr["name"].ToString() != "msdb" && dr["name"].ToString() != "distribution" 
+                                && dr["name"].ToString() != "master")
+                            {
+                                baseDatos.Add(new Instancia(dr["name"].ToString()));
+                            }
                         }
                     }
                 }
 
                 return baseDatos;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public static List<Instancia> DevolverTablas(string bd, string instancia)
+        {
+            try
+            {
+                List<Instancia> tablas = new List<Instancia>();
+                if (instancia != "Kevin")
+                {
+                    instancia = "Kevin\\" + instancia;
+                }
+                using (SqlConnection connection = new SqlConnection("Data Source=" + instancia + ";Initial Catalog=Master;Integrated Security=True"))
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = connection;
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = @"use ["+bd+ "] SELECT * FROM INFORMATION_SCHEMA.TABLES " +
+                        "where TABLE_NAME not like 'sys%' AND TABLE_NAME not like 'MS%' AND TABLE_NAME not like 'syn%';";
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            tablas.Add(new Instancia(dr["TABLE_NAME"].ToString()));
+                        }
+                    }
+                }
+
+                return tablas;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public static List<Instancia> DevolverColumnas(Instancia instancia)
+        {
+            try
+            {
+                List<Instancia> tablas = new List<Instancia>();
+                if (instancia.Nombre != "Kevin")
+                {
+                    instancia.Nombre = "Kevin\\" + instancia;
+                }
+                using (SqlConnection connection = new SqlConnection("Data Source=" + instancia.Nombre + ";Initial Catalog=Master;Integrated Security=True"))
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = connection;
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = @"use["+instancia.BaseDatos+"] select t.COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS t where t.TABLE_CATALOG = N'Northwind' and t.TABLE_NAME = N'CUSTOMERS';";
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            tablas.Add(new Instancia(dr["COLUMN_NAME"].ToString()));
+                        }
+                    }
+                }
+
+                return tablas;
             }
             catch (Exception)
             {

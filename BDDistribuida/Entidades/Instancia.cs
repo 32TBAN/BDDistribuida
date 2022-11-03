@@ -9,6 +9,8 @@ namespace BDDistribuida.Entidades
     public class Instancia
     {
         public string Nombre { get; set; }
+        public string BaseDatos { get; set; }
+        public string Tabla { get; set; }
 
         public Instancia()
         {

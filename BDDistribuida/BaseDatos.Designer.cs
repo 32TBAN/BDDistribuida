@@ -34,8 +34,11 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.dataGridView_Datos = new System.Windows.Forms.DataGridView();
+            this.label4 = new System.Windows.Forms.Label();
+            this.dataGridView_Columnas = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Datos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Columnas)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -64,22 +67,22 @@
             this.dataGridView_BD.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_BD.Location = new System.Drawing.Point(15, 59);
             this.dataGridView_BD.Name = "dataGridView_BD";
-            this.dataGridView_BD.Size = new System.Drawing.Size(133, 150);
+            this.dataGridView_BD.Size = new System.Drawing.Size(172, 150);
             this.dataGridView_BD.TabIndex = 2;
             this.dataGridView_BD.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_BD_CellClick);
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(276, 59);
+            this.richTextBox1.Location = new System.Drawing.Point(87, 228);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(250, 150);
+            this.richTextBox1.Size = new System.Drawing.Size(250, 46);
             this.richTextBox1.TabIndex = 3;
             this.richTextBox1.Text = "";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(330, 33);
+            this.label3.Location = new System.Drawing.Point(12, 228);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(69, 13);
             this.label3.TabIndex = 4;
@@ -90,16 +93,38 @@
             this.dataGridView_Datos.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridView_Datos.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView_Datos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_Datos.Location = new System.Drawing.Point(154, 59);
+            this.dataGridView_Datos.Location = new System.Drawing.Point(193, 59);
             this.dataGridView_Datos.Name = "dataGridView_Datos";
-            this.dataGridView_Datos.Size = new System.Drawing.Size(116, 150);
+            this.dataGridView_Datos.Size = new System.Drawing.Size(168, 150);
             this.dataGridView_Datos.TabIndex = 5;
+            this.dataGridView_Datos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Datos_CellClick);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(190, 33);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(86, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Escoja una tabla";
+            // 
+            // dataGridView_Columnas
+            // 
+            this.dataGridView_Columnas.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGridView_Columnas.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataGridView_Columnas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_Columnas.Location = new System.Drawing.Point(367, 90);
+            this.dataGridView_Columnas.Name = "dataGridView_Columnas";
+            this.dataGridView_Columnas.Size = new System.Drawing.Size(155, 119);
+            this.dataGridView_Columnas.TabIndex = 7;
             // 
             // BaseDatos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(534, 263);
+            this.ClientSize = new System.Drawing.Size(534, 292);
+            this.Controls.Add(this.dataGridView_Columnas);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.dataGridView_Datos);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.richTextBox1);
@@ -112,6 +137,7 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BaseDatos_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Datos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Columnas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -125,5 +151,7 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dataGridView_Datos;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DataGridView dataGridView_Columnas;
     }
 }

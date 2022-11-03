@@ -19,5 +19,15 @@ namespace BDDistribuida.Negocio
         {
             return DatosInstancia.DevolverBD(nombre);
         }
+
+        public static List<Instancia> DevolverTablas(string bd, string instancia)
+        {
+            return DatosInstancia.DevolverTablas(bd, instancia);
+        }
+
+        public static List<Instancia> DevolverColumnas(Instancia instancia)
+        {
+            return DatosInstancia.DevolverColumnas(instancia);
+        }
     }
 }

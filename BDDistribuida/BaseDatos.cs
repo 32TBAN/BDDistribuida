@@ -14,7 +14,7 @@ namespace BDDistribuida
 {
     public partial class BaseDatos : Form
     {
-        public Instancia instancia { get; set; }
+        public Instancia instancia = new Instancia();
         public BaseDatos(Instancia instancia)
         {
             InitializeComponent();
@@ -26,6 +26,9 @@ namespace BDDistribuida
         {
             List<Instancia> baseDatos = NegocioInstancias.DevolverBD(instancia.Nombre);
             dataGridView_BD.DataSource = baseDatos;
+            dataGridView_BD.Columns["Tabla"].Visible = false;
+            dataGridView_BD.Columns["BaseDatos"].Visible = false;
+
         }
 
         private void BaseDatos_FormClosed(object sender, FormClosedEventArgs e)
@@ -37,13 +40,42 @@ namespace BDDistribuida
         {
             try
             {
-                var num = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Num"].Value.ToString());
-                BuscarBodega(num);
+                instancia.BaseDatos = dataGridView_BD.Rows[e.RowIndex].Cells["Nombre"].Value.ToString();
+                CargarTablas(instancia.BaseDatos);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message.ToString());
             }
+        }
+
+        private void CargarTablas(string bd)
+        {
+            dataGridView_Datos.DataSource = null;
+            dataGridView_Datos.DataSource = NegocioInstancias.DevolverTablas(bd,instancia.Nombre);
+            dataGridView_Datos.Columns["Tabla"].Visible = false;
+            dataGridView_Datos.Columns["BaseDatos"].Visible = false;
+        }
+
+        private void dataGridView_Datos_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                instancia.Tabla = dataGridView_BD.Rows[e.RowIndex].Cells["Nombre"].Value.ToString();
+                CargarColumnas(instancia.Tabla);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }
+        }
+
+        private void CargarColumnas(string tabla)
+        {
+            dataGridView_Columnas.DataSource = null;
+            dataGridView_Columnas.DataSource = NegocioInstancias.DevolverColumnas(instancia);
+            dataGridView_Columnas.Columns["Tabla"].Visible = false;
+            dataGridView_Columnas.Columns["BaseDatos"].Visible = false;
         }
     }
 }

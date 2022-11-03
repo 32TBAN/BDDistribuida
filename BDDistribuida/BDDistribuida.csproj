@@ -53,7 +53,7 @@
       <DependentUpon>BaseDatos.cs</DependentUpon>
     </Compile>
     <Compile Include="Datos\DatosUsuario.cs" />
-    <Compile Include="Entidades\Usuario.cs" />
+    <Compile Include="Entidades\Instancia.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
