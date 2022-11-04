@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="Datos\DatosPublicacion.cs" />
     <Compile Include="Entidades\Publicacion.cs" />
+    <Compile Include="Entidades\Suscripcion.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

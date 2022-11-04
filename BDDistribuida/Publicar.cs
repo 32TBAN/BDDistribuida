@@ -15,6 +15,8 @@ namespace BDDistribuida
     public partial class Publicar : Form
     {
         public Publicacion publicacion = new Publicacion();
+        List<Suscripcion> datosSuscripcion = new List<Suscripcion>();
+        private string NombreInstanciaS;
         public Publicar(Publicacion pulicacion)
         {
             InitializeComponent();
@@ -22,6 +24,7 @@ namespace BDDistribuida
             button_OK.Enabled = false;
             label_Contrasena.Enabled = false;
             textBox_Contrase.Enabled = false;
+            CargarInstancias();
         }
 
         private void Publicar_FormClosed(object sender, FormClosedEventArgs e)
@@ -34,6 +37,7 @@ namespace BDDistribuida
             try
             {
                 publicacion.NombrePub = textBox_NombrePub.Text;
+                publicacion.Contraseña = textBox_Contrase.Text;
                 if (publicacion.Filtro == "")
                 {
                     NegocioPublicacion.PublicarReplicaSinFiltro(publicacion);
@@ -42,12 +46,16 @@ namespace BDDistribuida
                     textBox_Contrase.Enabled = false;
                     button_OK.Enabled = false;
                     button_B.Enabled = false;
+                    CargarInstancias();
                 }
                 else
                 {
                     NegocioPublicacion.PublicarReplicaConFiltro(publicacion);
                     MessageBox.Show("Se ha publicado");
-                    
+                    textBox_NombrePub.Enabled = false;
+                    textBox_Contrase.Enabled = false;
+                    button_OK.Enabled = false;
+                    button_B.Enabled = false;
                 }
             }
             catch (Exception ex)
@@ -55,7 +63,17 @@ namespace BDDistribuida
                 MessageBox.Show(ex.Message.ToString());
             }    
         }
+        private void CargarInstancias()
+        {
+            List<Publicacion> baseDatos = NegocioPublicacion.DevolverListaInstancias();
+            dataGridView_BD.DataSource = baseDatos;
+            dataGridView_BD.Columns["Tabla"].Visible = false;
+            dataGridView_BD.Columns["BaseDatos"].Visible = false;
+            dataGridView_BD.Columns["Filtro"].Visible = false;
+            dataGridView_BD.Columns["NombrePub"].Visible = false;
+            dataGridView_BD.Columns["Contraseña"].Visible = false;
 
+        }
         private void textBox_NombrePub_TextChanged(object sender, EventArgs e)
         {
             if (textBox_NombrePub.Text != "")
@@ -87,6 +105,70 @@ namespace BDDistribuida
             this.Hide();
             BaseDatos baseDatos = new BaseDatos(publicacion);
             baseDatos.Show();
+        }
+
+        private void dataGridView_BD_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                NombreInstanciaS = dataGridView_BD.Rows[e.RowIndex].Cells["NombreInstancia"].Value.ToString();
+                bool repetido = false;
+
+                foreach (var item in datosSuscripcion)
+                {
+                    if (item.NombreIntanciaS == NombreInstanciaS)
+                    {
+                        repetido = true;
+                    }
+                }
+                if (!repetido)
+                {
+                    //richTextBox_SUS.Text = "";
+                    richTextBox_SUS.Text += NombreInstanciaS + " en ";
+                    EscojerBD(NombreInstanciaS);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }
+        }
+
+        private void EscojerBD(string n)
+        {
+            comboBox1.DataSource = NegocioPublicacion.DevolverBD(n);
+            comboBox1.DisplayMember = "NombreInstancia";
+            comboBox1.Enabled = true;
+            dataGridView_BD.Enabled = false;
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!dataGridView_BD.Enabled)
+            {
+                richTextBox_SUS.Text += ((Publicacion)(comboBox1.SelectedValue)).NombreInstancia+"\n";
+                dataGridView_BD.Enabled = true;
+                datosSuscripcion.Add(new Suscripcion(((Publicacion)(comboBox1.SelectedValue)).NombreInstancia,NombreInstanciaS));
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            richTextBox_SUS.Text = "";
+            datosSuscripcion.Clear();
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            try
+            {
+                NegocioPublicacion.RealizarSuscripcion(publicacion,datosSuscripcion);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }
         }
     }
 }

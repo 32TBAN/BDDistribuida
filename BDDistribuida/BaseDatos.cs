@@ -84,7 +84,7 @@ namespace BDDistribuida
 
         private void CargarColumnas(string tabla)
         {
-            label_Consulta.Text = "Select";
+            label_Consulta.Text = "Select * from";
             dataGridView_Columnas.DataSource = null;
             dataGridView_Columnas.DataSource = NegocioPublicacion.DevolverColumnas(instancia);
             dataGridView_Columnas.Columns["Tabla"].Visible = false;

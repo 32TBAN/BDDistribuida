@@ -39,5 +39,10 @@ namespace BDDistribuida.Negocio
         {
             return DatosPublicacion.PublicarReplicaConFiltro(publicacion);
         }
+
+        public static void RealizarSuscripcion(Publicacion publicacion, List<Suscripcion> datosSuscripcion)
+        {
+             DatosPublicacion.RealizarSuscripcion(publicacion,datosSuscripcion);
+        }
     }
 }
