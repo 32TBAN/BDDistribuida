@@ -14,8 +14,8 @@ namespace BDDistribuida
 {
     public partial class BaseDatos : Form
     {
-        public Instancia instancia = new Instancia();
-        public BaseDatos(Instancia instancia)
+        public Publicacion instancia = new Publicacion();
+        public BaseDatos(Publicacion instancia)
         {
             InitializeComponent();
             this.instancia = instancia;
@@ -24,10 +24,14 @@ namespace BDDistribuida
 
         private void CargarBD()
         {
-            List<Instancia> baseDatos = NegocioInstancias.DevolverBD(instancia.Nombre);
+            List<Publicacion> baseDatos = NegocioPublicacion.DevolverBD(instancia.NombreInstancia);
             dataGridView_BD.DataSource = baseDatos;
             dataGridView_BD.Columns["Tabla"].Visible = false;
             dataGridView_BD.Columns["BaseDatos"].Visible = false;
+            dataGridView_BD.Columns["Filtro"].Visible = false;
+            dataGridView_BD.Columns["NombrePub"].Visible = false;
+            dataGridView_BD.Columns["Contraseña"].Visible = false;
+
         }
 
         private void BaseDatos_FormClosed(object sender, FormClosedEventArgs e)
@@ -39,7 +43,7 @@ namespace BDDistribuida
         {
             try
             {
-                instancia.BaseDatos = dataGridView_BD.Rows[e.RowIndex].Cells["Nombre"].Value.ToString();
+                instancia.BaseDatos = dataGridView_BD.Rows[e.RowIndex].Cells["NombreInstancia"].Value.ToString();
                 CargarTablas(instancia.BaseDatos);
             }
             catch (Exception ex)
@@ -54,16 +58,21 @@ namespace BDDistribuida
             dataGridView_Datos.DataSource = null;
             dataGridView_Columnas.DataSource = null;
             dataGridView_Datos.DataSource = null;
-            dataGridView_Datos.DataSource = NegocioInstancias.DevolverTablas(bd,instancia.Nombre);
+            dataGridView_Datos.DataSource = NegocioPublicacion.DevolverTablas(bd,instancia.NombreInstancia);
             dataGridView_Datos.Columns["Tabla"].Visible = false;
             dataGridView_Datos.Columns["BaseDatos"].Visible = false;
+            dataGridView_Datos.ColumnHeadersVisible = false;
+            dataGridView_Datos.Columns["Filtro"].Visible = false;
+            dataGridView_Datos.Columns["NombrePub"].Visible = false;
+            dataGridView_Datos.Columns["Contraseña"].Visible = false;
+
         }
 
         private void dataGridView_Datos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                instancia.Tabla = dataGridView_Datos.Rows[e.RowIndex].Cells["Nombre"].Value.ToString();
+                instancia.Tabla = dataGridView_Datos.Rows[e.RowIndex].Cells["NombreInstancia"].Value.ToString();
                 CargarColumnas(instancia.Tabla);
             }
             catch (Exception ex)
@@ -76,16 +85,21 @@ namespace BDDistribuida
         {
             label_Consulta.Text = "Select";
             dataGridView_Columnas.DataSource = null;
-            dataGridView_Columnas.DataSource = NegocioInstancias.DevolverColumnas(instancia);
+            dataGridView_Columnas.DataSource = NegocioPublicacion.DevolverColumnas(instancia);
             dataGridView_Columnas.Columns["Tabla"].Visible = false;
             dataGridView_Columnas.Columns["BaseDatos"].Visible = false;
+            dataGridView_Columnas.ColumnHeadersVisible = false;
+            dataGridView_Columnas.Columns["Filtro"].Visible = false;
+            dataGridView_Columnas.Columns["NombrePub"].Visible = false;
+            dataGridView_Columnas.Columns["Contraseña"].Visible = false;
+
         }
 
         private void dataGridView_Columnas_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                var c = dataGridView_Columnas.Rows[e.RowIndex].Cells["Nombre"].Value.ToString();
+                var c = dataGridView_Columnas.Rows[e.RowIndex].Cells["NombreInstancia"].Value.ToString();
                 if (label_Consulta.Text.Length != 6)
                 {
                     label_Consulta.Text += " ," + c;
@@ -104,6 +118,21 @@ namespace BDDistribuida
         private void label6_Click(object sender, EventArgs e)
         {
             label_Consulta.Text = "Select";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (instancia.BaseDatos != null  || instancia.Tabla != null)
+            {
+                instancia.Filtro = label_Consulta.Text != "Select" ? label_Consulta.Text : "";
+                Publicar publicar = new Publicar(instancia);
+                publicar.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Faltan datos para relizar la replica");
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace BDDistribuida
 {
     public partial class Form1 : Form
     {
-        public Instancia instancia = new Instancia();
+        public Publicacion instancia = new Publicacion();
         
         public Form1()
         {
@@ -25,13 +25,13 @@ namespace BDDistribuida
 
         private void CargarComboBox()
         {
-            comboBox_NombreServer.DataSource = NegocioInstancias.DevolverListaInstancias();
-            comboBox_NombreServer.DisplayMember = "Nombre";
+            comboBox_NombreServer.DataSource = NegocioPublicacion.DevolverListaInstancias();
+            comboBox_NombreServer.DisplayMember = "NombreInstancia";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            instancia.Nombre = comboBox_NombreServer.Text;
+            instancia.NombreInstancia = comboBox_NombreServer.Text;
             BaseDatos baseDatos = new BaseDatos(instancia);
             baseDatos.Show();
             this.Hide();

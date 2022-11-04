@@ -8,26 +8,36 @@ using System.Threading.Tasks;
 
 namespace BDDistribuida.Negocio
 {
-    public static class NegocioInstancias
+    public static class NegocioPublicacion
     {
-        public static List<Instancia> DevolverListaInstancias()
+        public static List<Publicacion> DevolverListaInstancias()
         {
-            return DatosInstancia.DevolverListaInstancias();
+            return DatosPublicacion.DevolverListaInstancias();
         }
 
-        public static List<Instancia> DevolverBD(string nombre)
+        public static List<Publicacion> DevolverBD(string nombre)
         {
-            return DatosInstancia.DevolverBD(nombre);
+            return DatosPublicacion.DevolverBD(nombre);
         }
 
-        public static List<Instancia> DevolverTablas(string bd, string instancia)
+        public static List<Publicacion> DevolverTablas(string bd, string instancia)
         {
-            return DatosInstancia.DevolverTablas(bd, instancia);
+            return DatosPublicacion.DevolverTablas(bd, instancia);
         }
 
-        public static List<Instancia> DevolverColumnas(Instancia instancia)
+        public static List<Publicacion> DevolverColumnas(Publicacion instancia)
         {
-            return DatosInstancia.DevolverColumnas(instancia);
+            return DatosPublicacion.DevolverColumnas(instancia);
+        }
+
+        public static bool PublicarReplicaSinFiltro(Publicacion publicacion)
+        {
+            return DatosPublicacion.PublicarReplicaSinFiltro(publicacion);
+        }
+
+        public static bool PublicarReplicaConFiltro(Publicacion publicacion)
+        {
+            return DatosPublicacion.PublicarReplicaConFiltro(publicacion);
         }
     }
 }
