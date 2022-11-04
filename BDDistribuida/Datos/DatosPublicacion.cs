@@ -166,8 +166,6 @@ namespace BDDistribuida.Datos
         {
             try
             {
-                List<Publicacion> tablas = new List<Publicacion>();
-
                 using (SqlConnection connection = new SqlConnection("Data Source=" + publicacion.NombreInstancia +
                     ";Initial Catalog=Master;Integrated Security=True"))
                 {
@@ -175,37 +173,50 @@ namespace BDDistribuida.Datos
                     SqlCommand cmd = new SqlCommand();
                     cmd.Connection = connection;
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = $"use master\r\n" +
-                                      $"exec sp_replicationdboption @dbname = N'{publicacion.BaseDatos}', @optname = N'publish',@value = N'true'\r\n"+ 
-                                      $"use [{publicacion.BaseDatos}]\r\n" +
-                                      $"exec sp_addpublication @publication = N'{publicacion.NombrePub}'," +
-                                      $"@description = N'Snapshot publication of database ''{publicacion.BaseDatos}'' from Publisher ''KEVIN''.'," +
-                                      $"@sync_method = N'native', @retention = 0, @allow_push = N'true', @allow_pull = N'true'," +
-                                      $"@allow_anonymous = N'true', @enabled_for_internet = N'false', @snapshot_in_defaultfolder = N'true'," +
-                                      $"@compress_snapshot = N'false', @ftp_port = 21, @ftp_login = N'anonymous', @allow_subscription_copy = N'false'," +
-                                      $"@add_to_active_directory = N'false', @repl_freq = N'snapshot',@status = N'active', @independent_agent = N'true', " +
-                                      $"@immediate_sync = N'true',@allow_sync_tran = N'false', @autogen_sync_procs = N'false', " +
-                                      $"@allow_queued_tran = N'false', @allow_dts = N'false', @replicate_ddl = 1 \r\n " +
-                                      $"exec sp_addpublication_snapshot @publication = N'{publicacion.NombrePub}', @frequency_type = 1, @frequency_interval = 0," +
-                                      $"@frequency_relative_interval = 0,@frequency_recurrence_factor = 0, @frequency_subday = 0, @frequency_subday_interval = 0," +
-                                      $"@active_start_time_of_day = 0, @active_end_time_of_day = 235959,@active_start_date = 0,@active_end_date = 0, " +
-                                      $"@job_login = N'{publicacion.NombreInstancia}', @job_password = {publicacion.Contraseña}, @publisher_security_mode = 1 \r\n" +
-                                      $"use [{publicacion.BaseDatos}] \r\n" +
-                                      $"exec sp_addarticle @publication = N'{publicacion.NombrePub}', @article = N'{publicacion.Tabla}', " +
-                                      $"@source_owner = N'dbo',@source_object = N'{publicacion.Tabla}', @type = N'logbased', @description = null, " +
-                                      $"@creation_script = null, @pre_creation_cmd = N'drop', @schema_option = 0x000000000803509D, " +
-                                      $"@identityrangemanagementoption = N'manual', @destination_table = N'{publicacion.Tabla}', @destination_owner = N'dbo', " +
-                                      $"@vertical_partition = N'false'";
+                    cmd.CommandText = @"use master
+                                        exec sp_replicationdboption @dbname = N'"+publicacion.BaseDatos+ @"', @optname = N'publish', 
+                                        @value = N'true'
+                                        
+                                        use ["+publicacion.BaseDatos+ @"]
+                                        exec sp_addpublication @publication = N'" + publicacion.NombrePub+ @"', 
+                                        @description = N'Snapshot publication of database ''"+publicacion.BaseDatos+ @"'' from Publisher ''KEVIN''.',
+                                        @sync_method = N'native', @retention = 0, @allow_push = N'true', @allow_pull = N'true',
+                                        @allow_anonymous = N'true', @enabled_for_internet = N'false', 
+                                        @snapshot_in_defaultfolder = N'true', @compress_snapshot = N'false', @ftp_port = 21, 
+                                        @ftp_login = N'anonymous', @allow_subscription_copy = N'false', 
+                                        @add_to_active_directory = N'false', @repl_freq = N'snapshot',
+                                        @status = N'active', @independent_agent = N'true', @immediate_sync = N'true',
+                                        @allow_sync_tran = N'false', @autogen_sync_procs = N'false', 
+                                        @allow_queued_tran = N'false', @allow_dts = N'false', @replicate_ddl = 1
+                 
+                                        exec sp_addpublication_snapshot @publication = N'" + publicacion.NombrePub+ @"', @frequency_type = 1, 
+                                        @frequency_interval = 0, @frequency_relative_interval = 0,
+                                        @frequency_recurrence_factor = 0, @frequency_subday = 0,
+                                        @frequency_subday_interval = 0,
+                                        @active_start_time_of_day = 0, @active_end_time_of_day = 235959,
+                                        @active_start_date = 0,
+                                        @active_end_date = 0, @job_login = N'Kevin\Esteban', @job_password = '" + publicacion.Contraseña+ @"', 
+                                        @publisher_security_mode = 1
+                                        
+                                        use [" + publicacion.BaseDatos+ @"]
+                                        exec sp_addarticle @publication = N'" + publicacion.NombrePub+ @"', @article = N'"+publicacion.Tabla+ @"', 
+                                        @source_owner = N'dbo', @source_object = N'"+publicacion.Tabla+ @"', @type = N'logbased',
+                                        @description = null, @creation_script = null, @pre_creation_cmd = N'drop', 
+                                        @schema_option = 0x000000000803509D, @identityrangemanagementoption = N'manual',
+                                        @destination_table = N'"+publicacion.BaseDatos+ @"', @destination_owner = N'dbo', 
+                                        @vertical_partition = N'false'";
                     cmd.ExecuteNonQuery();
-                    //Todo: Intentar con @
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                if (ex.Message.ToString() == "Se agotó el tiempo de espera de ejecución. El período de tiempo de espera transcurrió antes de la finalización de la operación o el servidor no responde.")
+                {
+                    return true;
+                }
                 throw;
-                return false;
-            }
+            } 
         }
             public static bool PublicarReplicaConFiltro(Publicacion publicacion)
             {
@@ -220,34 +231,63 @@ namespace BDDistribuida.Datos
                         SqlCommand cmd = new SqlCommand();
                         cmd.Connection = connection;
                         cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = $"use master" +
-                                          $"exec sp_replicationdboption @dbname = N'{publicacion.BaseDatos}', @optname = N'publish'," +
-                                          $"@value = N'true'" +
-                                          $"GO" +
-                                          $"use [{publicacion.BaseDatos}]" +
-                                          $"exec sp_addpublication @publication = N'{publicacion.NombrePub}'," +
-                                          $"@description = N'Snapshot publication of database ''{publicacion.BaseDatos}'' from Publisher ''KEVIN''.'," +
-                                          $"@sync_method = N'native', @retention = 0, @allow_push = N'true', @allow_pull = N'true'," +
-                                          $"@allow_anonymous = N'true', @enabled_for_internet = N'false', @snapshot_in_defaultfolder = N'true'," +
-                                          $"@compress_snapshot = N'false', @ftp_port = 21, @ftp_login = N'anonymous', @allow_subscription_copy = N'false'," +
-                                          $"@add_to_active_directory = N'false', @repl_freq = N'snapshot',@status = N'active', @independent_agent = N'true', " +
-                                          $"@immediate_sync = N'true',@allow_sync_tran = N'false', @autogen_sync_procs = N'false', " +
-                                          $"@allow_queued_tran = N'false', @allow_dts = N'false', @replicate_ddl = 1 GO";
-                        using (var dr = cmd.ExecuteReader())
-                        {
-                            while (dr.Read())
-                            {
-                                tablas.Add(new Publicacion(dr["COLUMN_NAME"].ToString()));
-                            }
-                        }
-                    }
+                        cmd.CommandText = @"use master
+                                        exec sp_replicationdboption @dbname = N'"+publicacion.BaseDatos+ @"', @optname = N'publish', 
+                                        @value = N'true'
+                                        
+                                        use ["+publicacion.BaseDatos+ @"]
+                                        exec sp_addpublication @publication = N'" + publicacion.NombrePub+ @"', 
+                                        @description = N'Snapshot publication of database ''"+publicacion.BaseDatos+ @"'' from Publisher ''KEVIN''.',
+                                        @sync_method = N'native', @retention = 0, @allow_push = N'true', @allow_pull = N'true',
+                                        @allow_anonymous = N'true', @enabled_for_internet = N'false', 
+                                        @snapshot_in_defaultfolder = N'true', @compress_snapshot = N'false', @ftp_port = 21, 
+                                        @ftp_login = N'anonymous', @allow_subscription_copy = N'false', 
+                                        @add_to_active_directory = N'false', @repl_freq = N'snapshot',
+                                        @status = N'active', @independent_agent = N'true', @immediate_sync = N'true',
+                                        @allow_sync_tran = N'false', @autogen_sync_procs = N'false', 
+                                        @allow_queued_tran = N'false', @allow_dts = N'false', @replicate_ddl = 1
+
+                                        exec sp_addpublication_snapshot @publication = N'" + publicacion.NombrePub+ @"', @frequency_type = 4,
+                                        @frequency_interval = 1, @frequency_relative_interval = 1,
+                                        @frequency_recurrence_factor = 0, @frequency_subday = 2, 
+                                        @frequency_subday_interval = 10, @active_start_time_of_day = 0, 
+                                        @active_end_time_of_day = 235959, @active_start_date = 0, @active_end_date = 0, 
+                                        @job_login = N'Kevin\Esteban', @job_password = null,
+                                        @publisher_security_mode = 1
+                                        
+                                        
+                                        use ["+ publicacion.BaseDatos+ @"]
+                                        exec sp_addarticle @publication = N'" + publicacion.NombrePub+ @"', @article = N'" + publicacion.Tabla+ @"', 
+                                        @source_owner = N'dbo', @source_object = N'" + publicacion.Tabla+ @"',
+                                        @type = N'logbased', @description = null, @creation_script = null, 
+                                        @pre_creation_cmd = N'drop', @schema_option = 0x000000000803509D,
+                                        @identityrangemanagementoption = N'manual', @destination_table = N'" + publicacion.NombrePub+ @"', 
+                                        @destination_owner = N'dbo', @vertical_partition = N'false',
+                                        @filter_clause = N'"+publicacion.Filtro+ @"''
+                                        
+                                        exec sp_articlefilter @publication = N'"+publicacion.NombrePub+ @"', @article = N'"+publicacion.Tabla+ @"',
+                                        @filter_name = N'FLTR_"+publicacion.Tabla+ @"_1__51',
+                                        @filter_clause = N'"+publicacion.Filtro+ @"'', @force_invalidate_snapshot = 1,
+                                        @force_reinit_subscription = 1
+                                        
+                                        exec sp_articleview @publication = N'"+publicacion.NombrePub+ @"', @article = N'"+publicacion.Tabla+ @"',
+                                        @view_name = N'SYNC_"+publicacion.Tabla+ @"_1__51',
+                                        @filter_clause = N'"+publicacion.Filtro+ @"', @force_invalidate_snapshot = 1,
+                                        @force_reinit_subscription = 1";
+                                        
+                    cmd.ExecuteNonQuery();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.ToString() == "Se agotó el tiempo de espera de ejecución. El período de tiempo de espera transcurrió antes de la finalización de la operación o el servidor no responde.")
+                {
                     return true;
                 }
-                catch (Exception)
-                {
-                    return false;
-                }
+                throw;
             }
+        }
         
     }
 }

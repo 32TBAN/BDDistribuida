@@ -33,6 +33,8 @@
             this.button_OK = new System.Windows.Forms.Button();
             this.textBox_Contrase = new System.Windows.Forms.TextBox();
             this.label_Contrasena = new System.Windows.Forms.Label();
+            this.label_Suscripcion = new System.Windows.Forms.Label();
+            this.button_B = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -80,11 +82,32 @@
             this.label_Contrasena.TabIndex = 3;
             this.label_Contrasena.Text = "Ingrese su contraseña";
             // 
+            // label_Suscripcion
+            // 
+            this.label_Suscripcion.AutoSize = true;
+            this.label_Suscripcion.Location = new System.Drawing.Point(12, 76);
+            this.label_Suscripcion.Name = "label_Suscripcion";
+            this.label_Suscripcion.Size = new System.Drawing.Size(73, 13);
+            this.label_Suscripcion.TabIndex = 5;
+            this.label_Suscripcion.Text = "Suscripciones";
+            // 
+            // button_B
+            // 
+            this.button_B.Location = new System.Drawing.Point(439, 3);
+            this.button_B.Name = "button_B";
+            this.button_B.Size = new System.Drawing.Size(56, 23);
+            this.button_B.TabIndex = 6;
+            this.button_B.Text = "Back";
+            this.button_B.UseVisualStyleBackColor = true;
+            this.button_B.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // Publicar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 277);
+            this.Controls.Add(this.button_B);
+            this.Controls.Add(this.label_Suscripcion);
             this.Controls.Add(this.textBox_Contrase);
             this.Controls.Add(this.label_Contrasena);
             this.Controls.Add(this.button_OK);
@@ -106,5 +129,7 @@
         private System.Windows.Forms.Button button_OK;
         private System.Windows.Forms.TextBox textBox_Contrase;
         private System.Windows.Forms.Label label_Contrasena;
+        private System.Windows.Forms.Label label_Suscripcion;
+        private System.Windows.Forms.Button button_B;
     }
 }

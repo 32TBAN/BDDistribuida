@@ -54,7 +54,7 @@ namespace BDDistribuida
 
         private void CargarTablas(string bd)
         {
-            label_Consulta.Text = "Select";
+            label_Consulta.Text = "Select * from ";
             dataGridView_Datos.DataSource = null;
             dataGridView_Columnas.DataSource = null;
             dataGridView_Datos.DataSource = null;
@@ -74,6 +74,7 @@ namespace BDDistribuida
             {
                 instancia.Tabla = dataGridView_Datos.Rows[e.RowIndex].Cells["NombreInstancia"].Value.ToString();
                 CargarColumnas(instancia.Tabla);
+                label_Consulta.Text += " "+instancia.Tabla + " where";
             }
             catch (Exception ex)
             {
@@ -100,14 +101,14 @@ namespace BDDistribuida
             try
             {
                 var c = dataGridView_Columnas.Rows[e.RowIndex].Cells["NombreInstancia"].Value.ToString();
-                if (label_Consulta.Text.Length != 6)
-                {
-                    label_Consulta.Text += " ," + c;
-                }
-                else
-                {
-                    label_Consulta.Text += " " + c;
-                }
+                //if (label_Consulta.Text.Length != 6)
+                //{
+                //    label_Consulta.Text += " ," + c;
+                //}
+                //else
+                //{
+                //    label_Consulta.Text += " " + c;
+                //}
             }
             catch (Exception ex)
             {
@@ -124,7 +125,7 @@ namespace BDDistribuida
         {
             if (instancia.BaseDatos != null  || instancia.Tabla != null)
             {
-                instancia.Filtro = label_Consulta.Text != "Select" ? label_Consulta.Text : "";
+                instancia.Filtro = richTextBox_Filtro.Text;
                 Publicar publicar = new Publicar(instancia);
                 publicar.Show();
                 this.Hide();

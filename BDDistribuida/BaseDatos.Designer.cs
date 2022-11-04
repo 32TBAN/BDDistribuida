@@ -31,7 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView_BD = new System.Windows.Forms.DataGridView();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox_Filtro = new System.Windows.Forms.RichTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.dataGridView_Datos = new System.Windows.Forms.DataGridView();
             this.label4 = new System.Windows.Forms.Label();
@@ -75,13 +75,13 @@
             this.dataGridView_BD.TabIndex = 2;
             this.dataGridView_BD.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_BD_CellClick);
             // 
-            // richTextBox1
+            // richTextBox_Filtro
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(15, 270);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(250, 46);
-            this.richTextBox1.TabIndex = 3;
-            this.richTextBox1.Text = "Where";
+            this.richTextBox_Filtro.Location = new System.Drawing.Point(15, 270);
+            this.richTextBox_Filtro.Name = "richTextBox_Filtro";
+            this.richTextBox_Filtro.Size = new System.Drawing.Size(250, 46);
+            this.richTextBox_Filtro.TabIndex = 3;
+            this.richTextBox_Filtro.Text = "";
             // 
             // label3
             // 
@@ -128,9 +128,9 @@
             this.label_Consulta.AutoSize = true;
             this.label_Consulta.Location = new System.Drawing.Point(12, 254);
             this.label_Consulta.Name = "label_Consulta";
-            this.label_Consulta.Size = new System.Drawing.Size(37, 13);
+            this.label_Consulta.Size = new System.Drawing.Size(73, 13);
             this.label_Consulta.TabIndex = 8;
-            this.label_Consulta.Text = "Select";
+            this.label_Consulta.Text = "Select * From ";
             // 
             // label5
             // 
@@ -174,7 +174,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dataGridView_Datos);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.richTextBox_Filtro);
             this.Controls.Add(this.dataGridView_BD);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -195,7 +195,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dataGridView_BD;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox richTextBox_Filtro;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dataGridView_Datos;
         private System.Windows.Forms.Label label4;

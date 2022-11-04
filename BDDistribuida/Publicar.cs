@@ -31,31 +31,29 @@ namespace BDDistribuida
 
         private void button1_Click(object sender, EventArgs e)
         {
-            publicacion.NombrePub = textBox_NombrePub.Text;
-            if (publicacion.Filtro == "")
+            try
             {
-                if (NegocioPublicacion.PublicarReplicaSinFiltro(publicacion))
+                publicacion.NombrePub = textBox_NombrePub.Text;
+                if (publicacion.Filtro == "")
                 {
+                    NegocioPublicacion.PublicarReplicaSinFiltro(publicacion);
                     MessageBox.Show("Se ha publicado");
+                    textBox_NombrePub.Enabled = false;
+                    textBox_Contrase.Enabled = false;
+                    button_OK.Enabled = false;
+                    button_B.Enabled = false;
                 }
                 else
                 {
-                    MessageBox.Show("Ha ocurrido un error al publicar");
-                }
-            }
-            else
-            {
-                if (NegocioPublicacion.PublicarReplicaConFiltro(publicacion))
-                {
+                    NegocioPublicacion.PublicarReplicaConFiltro(publicacion);
                     MessageBox.Show("Se ha publicado");
-                }
-                else
-                {
-                    MessageBox.Show("Ha ocurrido un error al publicar");
+                    
                 }
             }
-          
-            
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }    
         }
 
         private void textBox_NombrePub_TextChanged(object sender, EventArgs e)
@@ -82,6 +80,13 @@ namespace BDDistribuida
             {
                 button_OK.Enabled = false;
             }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            this.Hide();
+            BaseDatos baseDatos = new BaseDatos(publicacion);
+            baseDatos.Show();
         }
     }
 }
