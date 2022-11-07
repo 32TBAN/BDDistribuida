@@ -101,6 +101,7 @@ namespace BDDistribuida
             try
             {
                 var c = dataGridView_Columnas.Rows[e.RowIndex].Cells["NombreInstancia"].Value.ToString();
+                richTextBox_Filtro.Text += c + "=";
                 //if (label_Consulta.Text.Length != 6)
                 //{
                 //    label_Consulta.Text += " ," + c;
@@ -119,6 +120,7 @@ namespace BDDistribuida
         private void label6_Click(object sender, EventArgs e)
         {
             label_Consulta.Text = "Select";
+            richTextBox_Filtro.Text = "";
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -24,6 +24,10 @@ namespace BDDistribuida
             button_OK.Enabled = false;
             label_Contrasena.Enabled = false;
             textBox_Contrase.Enabled = false;
+            comboBox1.Enabled = false;
+            button1.Enabled = false;
+            dataGridView_BD.Enabled = false;
+            dataGridView_BD.Visible = false;
             CargarInstancias();
         }
 
@@ -85,6 +89,13 @@ namespace BDDistribuida
             {
                 label_Contrasena.Enabled = false;
                 textBox_Contrase.Enabled = false;
+                button1.Enabled = false;
+                dataGridView_BD.Enabled = false;
+                dataGridView_BD.Visible = false;
+                textBox_Contrase.Text = "";
+                richTextBox_SUS.Text = "";
+                comboBox1.Enabled = false;
+                comboBox1.Text = "";
             }
         }
 
@@ -93,17 +104,21 @@ namespace BDDistribuida
             if (textBox_Contrase.Text != "")
             {
                 button_OK.Enabled = true;
+                dataGridView_BD.Enabled = true;
+                dataGridView_BD.Visible = true;
             }
             else
             {
                 button_OK.Enabled = false;
+                dataGridView_BD.Enabled = false;
+                dataGridView_BD.Visible = false;
             }
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            this.Hide();
             BaseDatos baseDatos = new BaseDatos(publicacion);
+            this.Hide();
             baseDatos.Show();
         }
 
@@ -133,6 +148,8 @@ namespace BDDistribuida
             {
                 MessageBox.Show(ex.Message.ToString());
             }
+            comboBox1.Enabled = true;
+            button1.Enabled = true;
         }
 
         private void EscojerBD(string n)
@@ -149,7 +166,7 @@ namespace BDDistribuida
             {
                 richTextBox_SUS.Text += ((Publicacion)(comboBox1.SelectedValue)).NombreInstancia+"\n";
                 dataGridView_BD.Enabled = true;
-                datosSuscripcion.Add(new Suscripcion(((Publicacion)(comboBox1.SelectedValue)).NombreInstancia,NombreInstanciaS));
+                datosSuscripcion.Add(new Suscripcion(NombreInstanciaS, ((Publicacion)(comboBox1.SelectedValue)).NombreInstancia));
             }
         }
 
@@ -164,6 +181,7 @@ namespace BDDistribuida
             try
             {
                 NegocioPublicacion.RealizarSuscripcion(publicacion,datosSuscripcion);
+                MessageBox.Show("Se ha creado la suscripcion");
             }
             catch (Exception ex)
             {

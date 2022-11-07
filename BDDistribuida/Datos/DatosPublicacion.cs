@@ -205,16 +205,18 @@ namespace BDDistribuida.Datos
                                         @schema_option = 0x000000000803509D, @identityrangemanagementoption = N'manual',
                                         @destination_table = N'"+publicacion.BaseDatos+ @"', @destination_owner = N'dbo', 
                                         @vertical_partition = N'false'";
+                    cmd.CommandTimeout = 660;
                     cmd.ExecuteNonQuery();
+                    connection.Close();
                 }
                 return true;
             }
             catch (Exception ex)
             {
-                if (ex.Message.ToString() == "Se agotó el tiempo de espera de ejecución. El período de tiempo de espera transcurrió antes de la finalización de la operación o el servidor no responde.")
-                {
-                    return true;
-                }
+                //if (ex.Message.ToString() == "Se agotó el tiempo de espera de ejecución. El período de tiempo de espera transcurrió antes de la finalización de la operación o el servidor no responde.")
+                //{
+                //    return true;
+                //}
                 throw;
             } 
         }
@@ -251,7 +253,7 @@ namespace BDDistribuida.Datos
                                             @frequency_relative_interval = 0, @frequency_recurrence_factor = 0, 
                                             @frequency_subday = 0, @frequency_subday_interval = 0, @active_start_time_of_day = 0, 
                                             @active_end_time_of_day = 235959, @active_start_date = 0, @active_end_date = 0,
-                                            @job_login = N'Kevin\Esteban', @job_password = " + publicacion.Contraseña+ @", @publisher_security_mode = 1
+                                            @job_login = N'Kevin\Esteban', @job_password = '" + publicacion.Contraseña+ @"', @publisher_security_mode = 1
                                             
                                             
                                             use [" + publicacion.BaseDatos+ @"]
@@ -272,17 +274,18 @@ namespace BDDistribuida.Datos
                                             @filter_clause = N'"+publicacion.Filtro+ @"', @force_invalidate_snapshot = 1, 
                                             @force_reinit_subscription = 1
                                             ";
-                                        
+                    cmd.CommandTimeout = 120;
                     cmd.ExecuteNonQuery();
+                    connection.Close();
                 }
                 return true;
             }
             catch (Exception ex)
             {
-                if (ex.Message.ToString() == "Se agotó el tiempo de espera de ejecución. El período de tiempo de espera transcurrió antes de la finalización de la operación o el servidor no responde.")
-                {
-                    return true;
-                }
+                //if (ex.Message.ToString() == "Se agotó el tiempo de espera de ejecución. El período de tiempo de espera transcurrió antes de la finalización de la operación o el servidor no responde.")
+                //{
+                //    return true;
+                //}
                 throw;
             }
         }
@@ -319,12 +322,18 @@ namespace BDDistribuida.Datos
                                             @frequency_subday_interval = 0, @active_start_time_of_day = 0, @active_end_time_of_day = 235959, 
                                             @active_start_date = 20221104, @active_end_date = 99991231, 
                                             @enabled_for_syncmgr = N'False', @dts_package_location = N'Distributor'";
+                        cmd.CommandTimeout = 120;
                         cmd.ExecuteNonQuery();
+                    connection.Close();
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                //if (ex.Message.ToString() == "Se agotó el tiempo de espera de ejecución. El período de tiempo de espera transcurrió antes de la finalización de la operación o el servidor no responde.")
+                //{
+                //    return;
+                //}
                 throw;
             }
         }
