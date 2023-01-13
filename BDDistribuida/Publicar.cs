@@ -25,9 +25,10 @@ namespace BDDistribuida
             label_Contrasena.Enabled = false;
             textBox_Contrase.Enabled = false;
             comboBox1.Enabled = false;
-            button1.Enabled = false;
+            button_Sus.Enabled = false;
             dataGridView_BD.Enabled = false;
             dataGridView_BD.Visible = false;
+            button_Sus.Enabled = false;
             CargarInstancias();
         }
 
@@ -42,25 +43,15 @@ namespace BDDistribuida
             {
                 publicacion.NombrePub = textBox_NombrePub.Text;
                 publicacion.Contraseña = textBox_Contrase.Text;
-                if (publicacion.Filtro == "")
-                {
-                    NegocioPublicacion.PublicarReplicaSinFiltro(publicacion);
-                    MessageBox.Show("Se ha publicado");
-                    textBox_NombrePub.Enabled = false;
-                    textBox_Contrase.Enabled = false;
-                    button_OK.Enabled = false;
-                    button_B.Enabled = false;
-                    CargarInstancias();
-                }
-                else
-                {
-                    NegocioPublicacion.PublicarReplicaConFiltro(publicacion);
-                    MessageBox.Show("Se ha publicado");
-                    textBox_NombrePub.Enabled = false;
-                    textBox_Contrase.Enabled = false;
-                    button_OK.Enabled = false;
-                    button_B.Enabled = false;
-                }
+
+                NegocioPublicacion.PublicarReplicaSinFiltro(publicacion);
+                MessageBox.Show("Se ha publicado");
+                textBox_NombrePub.Enabled = false;
+                textBox_Contrase.Enabled = false;
+                button_OK.Enabled = false;
+                button_B.Enabled = false;
+                button_Sus.Enabled = true;
+                CargarInstancias();
             }
             catch (Exception ex)
             {
@@ -89,7 +80,7 @@ namespace BDDistribuida
             {
                 label_Contrasena.Enabled = false;
                 textBox_Contrase.Enabled = false;
-                button1.Enabled = false;
+                button_Sus.Enabled = false;
                 dataGridView_BD.Enabled = false;
                 dataGridView_BD.Visible = false;
                 textBox_Contrase.Text = "";
@@ -149,7 +140,7 @@ namespace BDDistribuida
                 MessageBox.Show(ex.Message.ToString());
             }
             comboBox1.Enabled = true;
-            button1.Enabled = true;
+            button_Sus.Enabled = true;
         }
 
         private void EscojerBD(string n)

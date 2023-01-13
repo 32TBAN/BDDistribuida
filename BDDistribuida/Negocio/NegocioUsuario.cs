@@ -35,14 +35,15 @@ namespace BDDistribuida.Negocio
             return DatosPublicacion.PublicarReplicaSinFiltro(publicacion);
         }
 
-        public static bool PublicarReplicaConFiltro(Publicacion publicacion)
-        {
-            return DatosPublicacion.PublicarReplicaConFiltro(publicacion);
-        }
 
         public static void RealizarSuscripcion(Publicacion publicacion, List<Suscripcion> datosSuscripcion)
         {
              DatosPublicacion.RealizarSuscripcion(publicacion,datosSuscripcion);
+        }
+
+        public static List<Publicacion> DevolverListaInstanciasOracle()
+        {
+            return DatosPublicacion.DevolverListaInstanciasOracle();
         }
     }
 }

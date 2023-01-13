@@ -35,7 +35,7 @@ namespace BDDistribuida.Datos
                         {
                             if (dr[1].ToString()== "MSSQLSERVER")
                             {
-                                instancias.Add(new Publicacion("Kevin"));
+                                instancias.Add(new Publicacion("KEVIN"));
                             }
                             else if (dr[1].ToString() != "SITIOC")
                             {
@@ -53,14 +53,18 @@ namespace BDDistribuida.Datos
 			}
         }
 
+        public static List<Publicacion> DevolverListaInstanciasOracle()
+        {
+            throw new NotImplementedException();
+        }
         public static List<Publicacion> DevolverBD(string nombre)
         {
             try
             {
                 List<Publicacion> baseDatos = new List<Publicacion>();
-                if (nombre != "Kevin")
+                if (nombre != Environment.MachineName)
                 {
-                    nombre = "Kevin\\"+nombre;
+                    nombre = Environment.MachineName+"\\"+nombre;
                 }
                 using (SqlConnection connection = new SqlConnection("Data Source="+nombre+";Initial Catalog=Master;Integrated Security=True"))
                 {
@@ -98,9 +102,9 @@ namespace BDDistribuida.Datos
             try
             {
                 List<Publicacion> tablas = new List<Publicacion>();
-                if (instancia != "Kevin")
+                if (instancia != Environment.MachineName)
                 {
-                    instancia = "Kevin\\" + instancia;
+                    instancia = Environment.MachineName+"\\" + instancia;
                 }
                 using (SqlConnection connection = new SqlConnection("Data Source=" + instancia + ";Initial Catalog=Master;Integrated Security=True"))
                 {
@@ -133,9 +137,9 @@ namespace BDDistribuida.Datos
             try
             {
                 List<Publicacion> tablas = new List<Publicacion>();
-                if (instancia.NombreInstancia != "Kevin")
+                if (instancia.NombreInstancia != Environment.MachineName)
                 {
-                    instancia.NombreInstancia = "Kevin\\" + instancia.NombreInstancia;
+                    instancia.NombreInstancia = Environment.MachineName+"\\" + instancia.NombreInstancia;
                 }
                 using (SqlConnection connection = new SqlConnection("Data Source=" + instancia.NombreInstancia + ";Initial Catalog=Master;Integrated Security=True"))
                 {
@@ -173,39 +177,34 @@ namespace BDDistribuida.Datos
                     SqlCommand cmd = new SqlCommand();
                     cmd.Connection = connection;
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @"use master
-                                        exec sp_replicationdboption @dbname = N'"+publicacion.BaseDatos+ @"', @optname = N'publish', 
-                                        @value = N'true'
+                    cmd.CommandText = @"use ["+publicacion.BaseDatos+ @"]
+                                        exec sp_replicationdboption @dbname = N'"+publicacion.BaseDatos+ @"', @optname = N'publish', @value = N'true'
+                                        
+                                        use [BDClientes]
+                                        exec [BDClientes].sys.sp_addlogreader_agent @job_login = N'Kevin\Esteban', 
+                                        @job_password = N'" + publicacion.Contraseña+ @"',@publisher_security_mode = 1, @job_name = null
+
+                                        use ["+publicacion.BaseDatos+ @"]
+                                        exec sp_addpublication @publication = N'"+publicacion.NombrePub+ @"', 
+                                        @description = N'Transactional publication of database ''"+publicacion.BaseDatos+ @"'' from Publisher ''KEVIN''.', 
+                                        @sync_method = N'concurrent', @retention = 0, @allow_push = N'true', @allow_pull = N'true', @allow_anonymous = N'true', 
+                                        @enabled_for_internet = N'false', @snapshot_in_defaultfolder = N'true', @compress_snapshot = N'false', @ftp_port = 21, 
+                                        @ftp_login = N'anonymous', @allow_subscription_copy = N'false', @add_to_active_directory = N'false', @repl_freq = N'continuous', 
+                                        @status = N'active', @independent_agent = N'true', @immediate_sync = N'true', @allow_sync_tran = N'true', 
+                                        @autogen_sync_procs = N'false',@allow_queued_tran = N'false', @allow_dts = N'false', @replicate_ddl = 1, 
+                                        @allow_initialize_from_backup = N'false', @enabled_for_p2p = N'false', @enabled_for_het_sub = N'false'
+                                        
+                                        exec sp_addpublication_snapshot @publication = N'"+publicacion.NombrePub+ @"', @frequency_type = 1, @frequency_interval = 0, 
+                                        @frequency_relative_interval = 0, @frequency_recurrence_factor = 0, @frequency_subday = 0, @frequency_subday_interval = 0,
+                                        @active_start_time_of_day = 0,@active_end_time_of_day = 235959, @active_start_date = 0, @active_end_date = 0, 
+                                        @job_login = N'Kevin\Esteban', @job_password = N'"+publicacion.Contraseña+ @"', @publisher_security_mode = 1
                                         
                                         use ["+publicacion.BaseDatos+ @"]
-                                        exec sp_addpublication @publication = N'" + publicacion.NombrePub+ @"', 
-                                        @description = N'Snapshot publication of database ''"+publicacion.BaseDatos+ @"'' from Publisher ''KEVIN''.',
-                                        @sync_method = N'native', @retention = 0, @allow_push = N'true', @allow_pull = N'true',
-                                        @allow_anonymous = N'true', @enabled_for_internet = N'false', 
-                                        @snapshot_in_defaultfolder = N'true', @compress_snapshot = N'false', @ftp_port = 21, 
-                                        @ftp_login = N'anonymous', @allow_subscription_copy = N'false', 
-                                        @add_to_active_directory = N'false', @repl_freq = N'snapshot',
-                                        @status = N'active', @independent_agent = N'true', @immediate_sync = N'true',
-                                        @allow_sync_tran = N'false', @autogen_sync_procs = N'false', 
-                                        @allow_queued_tran = N'false', @allow_dts = N'false', @replicate_ddl = 1
-                 
-                                        exec sp_addpublication_snapshot @publication = N'" + publicacion.NombrePub+ @"', @frequency_type = 1, 
-                                        @frequency_interval = 0, @frequency_relative_interval = 0,
-                                        @frequency_recurrence_factor = 0, @frequency_subday = 0,
-                                        @frequency_subday_interval = 0,
-                                        @active_start_time_of_day = 0, @active_end_time_of_day = 235959,
-                                        @active_start_date = 0,
-                                        @active_end_date = 0, @job_login = N'Kevin\Esteban', @job_password = '" + publicacion.Contraseña+ @"', 
-                                        @publisher_security_mode = 1
-                                        
-                                        use [" + publicacion.BaseDatos+ @"]
-                                        exec sp_addarticle @publication = N'" + publicacion.NombrePub+ @"', @article = N'"+publicacion.Tabla+ @"', 
-                                        @source_owner = N'dbo', @source_object = N'"+publicacion.Tabla+ @"', @type = N'logbased',
-                                        @description = null, @creation_script = null, @pre_creation_cmd = N'drop', 
-                                        @schema_option = 0x000000000803509D, @identityrangemanagementoption = N'manual',
-                                        @destination_table = N'"+publicacion.BaseDatos+ @"', @destination_owner = N'dbo', 
-                                        @vertical_partition = N'false'";
-                    cmd.CommandTimeout = 660;
+                                        exec sp_addarticle @publication = N'"+publicacion.NombrePub+ @"', @article = N'"+publicacion.Tabla+ @"', @source_owner = N'dbo', 
+                                        @source_object = N'Cliente', @type = N'logbased', @description = null, @creation_script = null, @pre_creation_cmd = N'drop', 
+                                        @schema_option = 0x000000000803509F, @identityrangemanagementoption = N'manual', @destination_table = N'"+publicacion.Tabla+ @"',
+                                        @destination_owner = N'dbo', @vertical_partition = N'false', @ins_cmd = N'CALL sp_MSins_dboCliente', 
+                                        @del_cmd = N'CALL sp_MSdel_dboCliente', @upd_cmd = N'SCALL sp_MSupd_dboCliente'";
                     cmd.ExecuteNonQuery();
                     connection.Close();
                 }
@@ -213,81 +212,8 @@ namespace BDDistribuida.Datos
             }
             catch (Exception ex)
             {
-                //if (ex.Message.ToString() == "Se agotó el tiempo de espera de ejecución. El período de tiempo de espera transcurrió antes de la finalización de la operación o el servidor no responde.")
-                //{
-                //    return true;
-                //}
                 throw;
             } 
-        }
-            public static bool PublicarReplicaConFiltro(Publicacion publicacion)
-            {
-                try
-                {
-
-                    using (SqlConnection connection = new SqlConnection("Data Source=" + publicacion.NombreInstancia +
-                        ";Initial Catalog=Master;Integrated Security=True"))
-                    {
-                        connection.Open();
-                        SqlCommand cmd = new SqlCommand();
-                        cmd.Connection = connection;
-                        cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = @"use master
-                                            exec sp_replicationdboption @dbname = N'"+publicacion.BaseDatos+ @"', @optname = N'publish', @value = N'true'
-
-                                            use ["+publicacion.BaseDatos+ @"]
-                                            exec sp_addpublication @publication = N'" + publicacion.NombrePub+ @"', 
-                                            @description = N'Snapshot publication of database ''"+publicacion.BaseDatos+ @"'' from Publisher ''KEVIN''.', 
-                                            @sync_method = N'native',
-                                            @retention = 0, @allow_push = N'true', @allow_pull = N'true', @allow_anonymous = N'true', 
-                                            @enabled_for_internet = N'false', @snapshot_in_defaultfolder = N'true', 
-                                            @compress_snapshot = N'false', @ftp_port = 21, @ftp_login = N'anonymous', @allow_subscription_copy = N'false', 
-                                            @add_to_active_directory = N'false', @repl_freq = N'snapshot',
-                                            @status = N'active', @independent_agent = N'true', @immediate_sync = N'true', @allow_sync_tran = N'false', 
-                                            @autogen_sync_procs = N'false', @allow_queued_tran = N'false',
-                                            @allow_dts = N'false', @replicate_ddl = 1
-                                            
-                                            
-                                            exec sp_addpublication_snapshot @publication = N'" + publicacion.NombrePub+ @"', @frequency_type = 1, 
-                                            @frequency_interval = 0, 
-                                            @frequency_relative_interval = 0, @frequency_recurrence_factor = 0, 
-                                            @frequency_subday = 0, @frequency_subday_interval = 0, @active_start_time_of_day = 0, 
-                                            @active_end_time_of_day = 235959, @active_start_date = 0, @active_end_date = 0,
-                                            @job_login = N'Kevin\Esteban', @job_password = '" + publicacion.Contraseña+ @"', @publisher_security_mode = 1
-                                            
-                                            
-                                            use [" + publicacion.BaseDatos+ @"]
-                                            exec sp_addarticle @publication = N'" + publicacion.NombrePub+ @"', @article = N'"+publicacion.Tabla+ @"', @source_owner = N'dbo', 
-                                            @source_object = N'"+publicacion.Tabla+ @"', @type = N'logbased', @description = null, 
-                                            @creation_script = null, @pre_creation_cmd = N'drop', @schema_option = 0x000000000803509D, 
-                                            @identityrangemanagementoption = N'manual', @destination_table = N'"+publicacion.Tabla+ @"',
-                                            @destination_owner = N'dbo', @vertical_partition = N'false', 
-                                            @filter_clause = N'"+publicacion.Filtro+ @"'
-                                            
-                                            exec sp_articlefilter @publication = N'" + publicacion.NombrePub+ @"', @article = N'"+publicacion.Tabla+ @"', 
-                                            @filter_name = N'FLTR_"+publicacion.Tabla+ @"_1__125', 
-                                            @filter_clause = N'"+publicacion.Filtro+ @"', @force_invalidate_snapshot = 1, 
-                                            @force_reinit_subscription = 1
-                                            
-                                            exec sp_articleview @publication = N'" + publicacion.NombrePub+ @"', @article = N'"+publicacion.Tabla+ @"', 
-                                            @view_name = N'SYNC_"+publicacion.Tabla+ @"_1__125', 
-                                            @filter_clause = N'"+publicacion.Filtro+ @"', @force_invalidate_snapshot = 1, 
-                                            @force_reinit_subscription = 1
-                                            ";
-                    cmd.CommandTimeout = 120;
-                    cmd.ExecuteNonQuery();
-                    connection.Close();
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                //if (ex.Message.ToString() == "Se agotó el tiempo de espera de ejecución. El período de tiempo de espera transcurrió antes de la finalización de la operación o el servidor no responde.")
-                //{
-                //    return true;
-                //}
-                throw;
-            }
         }
 
         public static void RealizarSuscripcion(Publicacion publicacion, List<Suscripcion> datosSuscripcion)
@@ -322,7 +248,6 @@ namespace BDDistribuida.Datos
                                             @frequency_subday_interval = 0, @active_start_time_of_day = 0, @active_end_time_of_day = 235959, 
                                             @active_start_date = 20221104, @active_end_date = 99991231, 
                                             @enabled_for_syncmgr = N'False', @dts_package_location = N'Distributor'";
-                        cmd.CommandTimeout = 120;
                         cmd.ExecuteNonQuery();
                     connection.Close();
                     }
@@ -330,12 +255,9 @@ namespace BDDistribuida.Datos
             }
             catch (Exception ex)
             {
-                //if (ex.Message.ToString() == "Se agotó el tiempo de espera de ejecución. El período de tiempo de espera transcurrió antes de la finalización de la operación o el servidor no responde.")
-                //{
-                //    return;
-                //}
                 throw;
             }
         }
+
     }
 }

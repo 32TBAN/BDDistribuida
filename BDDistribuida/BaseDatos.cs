@@ -54,8 +54,7 @@ namespace BDDistribuida
 
         private void CargarTablas(string bd)
         {
-            label_Consulta.Text = "Select * from ";
-            dataGridView_Datos.DataSource = null;
+           dataGridView_Datos.DataSource = null;
             dataGridView_Columnas.DataSource = null;
             dataGridView_Datos.DataSource = null;
             dataGridView_Datos.DataSource = NegocioPublicacion.DevolverTablas(bd,instancia.NombreInstancia);
@@ -74,7 +73,6 @@ namespace BDDistribuida
             {
                 instancia.Tabla = dataGridView_Datos.Rows[e.RowIndex].Cells["NombreInstancia"].Value.ToString();
                 CargarColumnas(instancia.Tabla);
-                label_Consulta.Text += " "+instancia.Tabla + " where";
             }
             catch (Exception ex)
             {
@@ -84,7 +82,6 @@ namespace BDDistribuida
 
         private void CargarColumnas(string tabla)
         {
-            label_Consulta.Text = "Select * from";
             dataGridView_Columnas.DataSource = null;
             dataGridView_Columnas.DataSource = NegocioPublicacion.DevolverColumnas(instancia);
             dataGridView_Columnas.Columns["Tabla"].Visible = false;
@@ -101,7 +98,6 @@ namespace BDDistribuida
             try
             {
                 var c = dataGridView_Columnas.Rows[e.RowIndex].Cells["NombreInstancia"].Value.ToString();
-                richTextBox_Filtro.Text += c + "=";
                 //if (label_Consulta.Text.Length != 6)
                 //{
                 //    label_Consulta.Text += " ," + c;
@@ -117,17 +113,10 @@ namespace BDDistribuida
             }
         }
 
-        private void label6_Click(object sender, EventArgs e)
-        {
-            label_Consulta.Text = "Select";
-            richTextBox_Filtro.Text = "";
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             if (instancia.BaseDatos != null  || instancia.Tabla != null)
             {
-                instancia.Filtro = richTextBox_Filtro.Text;
                 Publicar publicar = new Publicar(instancia);
                 publicar.Show();
                 this.Hide();

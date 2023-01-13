@@ -41,7 +41,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.richTextBox_SUS = new System.Windows.Forms.RichTextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_Sus = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BD)).BeginInit();
             this.SuspendLayout();
@@ -165,15 +165,15 @@
             this.richTextBox_SUS.TabIndex = 12;
             this.richTextBox_SUS.Text = "";
             // 
-            // button1
+            // button_Sus
             // 
-            this.button1.Location = new System.Drawing.Point(439, 179);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(68, 38);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "Crear suscripcion";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_2);
+            this.button_Sus.Location = new System.Drawing.Point(439, 179);
+            this.button_Sus.Name = "button_Sus";
+            this.button_Sus.Size = new System.Drawing.Size(68, 38);
+            this.button_Sus.TabIndex = 13;
+            this.button_Sus.Text = "Crear suscripcion";
+            this.button_Sus.UseVisualStyleBackColor = true;
+            this.button_Sus.Click += new System.EventHandler(this.button1_Click_2);
             // 
             // button2
             // 
@@ -191,7 +191,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(517, 277);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.button_Sus);
             this.Controls.Add(this.richTextBox_SUS);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBox1);
@@ -230,7 +230,7 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RichTextBox richTextBox_SUS;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_Sus;
         private System.Windows.Forms.Button button2;
     }
 }

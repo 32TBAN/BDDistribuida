@@ -36,5 +36,7 @@ namespace BDDistribuida
             baseDatos.Show();
             this.Hide();
         }
+
+
     }
 }
