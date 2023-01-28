@@ -39,5 +39,10 @@ namespace BDDistribuida
         {
             ((PictureBox)(sender)).BorderStyle = BorderStyle.FixedSingle;
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

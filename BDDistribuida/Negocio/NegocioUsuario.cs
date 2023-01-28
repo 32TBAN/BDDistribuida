@@ -41,9 +41,14 @@ namespace BDDistribuida.Negocio
              DatosPublicacion.RealizarSuscripcion(publicacion,datosSuscripcion);
         }
 
-        public static List<Publicacion> DevolverListaInstanciasOracle()
+        public static List<Publicacion> DevolverOracleDB()
         {
-            return DatosPublicacion.DevolverListaInstanciasOracle();
+            return DatosPublicacion.DevolverOracleDB();
+        }
+
+        public static void ReplicarOracle(Publicacion publicacion, OracleEntidad oracleEntidad)
+        {
+            DatosPublicacion.ReplicarOracle(publicacion, oracleEntidad);
         }
     }
 }

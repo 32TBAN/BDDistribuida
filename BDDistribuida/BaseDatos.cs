@@ -31,7 +31,6 @@ namespace BDDistribuida
             dataGridView_BD.Columns["Filtro"].Visible = false;
             dataGridView_BD.Columns["NombrePub"].Visible = false;
             dataGridView_BD.Columns["Contraseña"].Visible = false;
-
         }
 
         private void BaseDatos_FormClosed(object sender, FormClosedEventArgs e)
@@ -54,7 +53,7 @@ namespace BDDistribuida
 
         private void CargarTablas(string bd)
         {
-           dataGridView_Datos.DataSource = null;
+            dataGridView_Datos.DataSource = null;
             dataGridView_Columnas.DataSource = null;
             dataGridView_Datos.DataSource = null;
             dataGridView_Datos.DataSource = NegocioPublicacion.DevolverTablas(bd,instancia.NombreInstancia);

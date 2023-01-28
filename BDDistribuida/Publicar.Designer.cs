@@ -38,12 +38,16 @@
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView_BD = new System.Windows.Forms.DataGridView();
             this.label_Suscripciones = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.richTextBox_SUS = new System.Windows.Forms.RichTextBox();
             this.button_Sus = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.dataGridView_BDs = new System.Windows.Forms.DataGridView();
+            this.textBox_ContraseOracel = new System.Windows.Forms.TextBox();
+            this.label_contraseOracle = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BDs)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -94,11 +98,11 @@
             // label_Suscripcion
             // 
             this.label_Suscripcion.AutoSize = true;
-            this.label_Suscripcion.Location = new System.Drawing.Point(12, 76);
+            this.label_Suscripcion.Location = new System.Drawing.Point(63, 73);
             this.label_Suscripcion.Name = "label_Suscripcion";
-            this.label_Suscripcion.Size = new System.Drawing.Size(73, 13);
+            this.label_Suscripcion.Size = new System.Drawing.Size(61, 13);
             this.label_Suscripcion.TabIndex = 5;
-            this.label_Suscripcion.Text = "Suscripciones";
+            this.label_Suscripcion.Text = "Replicar a: ";
             // 
             // button_B
             // 
@@ -113,7 +117,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 98);
+            this.label2.Location = new System.Drawing.Point(12, 115);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(105, 13);
             this.label2.TabIndex = 7;
@@ -124,34 +128,25 @@
             this.dataGridView_BD.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridView_BD.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView_BD.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_BD.Location = new System.Drawing.Point(12, 115);
+            this.dataGridView_BD.Location = new System.Drawing.Point(12, 141);
             this.dataGridView_BD.Name = "dataGridView_BD";
-            this.dataGridView_BD.Size = new System.Drawing.Size(172, 150);
+            this.dataGridView_BD.Size = new System.Drawing.Size(172, 156);
             this.dataGridView_BD.TabIndex = 8;
             this.dataGridView_BD.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_BD_CellClick);
             // 
             // label_Suscripciones
             // 
             this.label_Suscripciones.AutoSize = true;
-            this.label_Suscripciones.Location = new System.Drawing.Point(192, 163);
+            this.label_Suscripciones.Location = new System.Drawing.Point(365, 115);
             this.label_Suscripciones.Name = "label_Suscripciones";
-            this.label_Suscripciones.Size = new System.Drawing.Size(88, 13);
+            this.label_Suscripciones.Size = new System.Drawing.Size(55, 13);
             this.label_Suscripciones.TabIndex = 9;
-            this.label_Suscripciones.Text = "Suscripciones a: ";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(193, 130);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(240, 21);
-            this.comboBox1.TabIndex = 10;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.label_Suscripciones.Text = "Resumen:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(190, 114);
+            this.label3.Location = new System.Drawing.Point(187, 115);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(75, 13);
             this.label3.TabIndex = 11;
@@ -159,15 +154,15 @@
             // 
             // richTextBox_SUS
             // 
-            this.richTextBox_SUS.Location = new System.Drawing.Point(193, 179);
+            this.richTextBox_SUS.Location = new System.Drawing.Point(368, 141);
             this.richTextBox_SUS.Name = "richTextBox_SUS";
-            this.richTextBox_SUS.Size = new System.Drawing.Size(238, 96);
+            this.richTextBox_SUS.Size = new System.Drawing.Size(159, 60);
             this.richTextBox_SUS.TabIndex = 12;
             this.richTextBox_SUS.Text = "";
             // 
             // button_Sus
             // 
-            this.button_Sus.Location = new System.Drawing.Point(439, 179);
+            this.button_Sus.Location = new System.Drawing.Point(555, 141);
             this.button_Sus.Name = "button_Sus";
             this.button_Sus.Size = new System.Drawing.Size(68, 38);
             this.button_Sus.TabIndex = 13;
@@ -177,7 +172,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(439, 227);
+            this.button2.Location = new System.Drawing.Point(555, 200);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(68, 38);
             this.button2.TabIndex = 14;
@@ -185,16 +180,60 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "Sql server",
+            "Oracle Database",
+            "Maria Database"});
+            this.comboBox2.Location = new System.Drawing.Point(145, 70);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(286, 21);
+            this.comboBox2.TabIndex = 15;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            // 
+            // dataGridView_BDs
+            // 
+            this.dataGridView_BDs.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGridView_BDs.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataGridView_BDs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_BDs.Location = new System.Drawing.Point(190, 141);
+            this.dataGridView_BDs.Name = "dataGridView_BDs";
+            this.dataGridView_BDs.Size = new System.Drawing.Size(172, 124);
+            this.dataGridView_BDs.TabIndex = 16;
+            this.dataGridView_BDs.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_BDs_CellClick);
+            // 
+            // textBox_ContraseOracel
+            // 
+            this.textBox_ContraseOracel.Location = new System.Drawing.Point(308, 279);
+            this.textBox_ContraseOracel.Name = "textBox_ContraseOracel";
+            this.textBox_ContraseOracel.Size = new System.Drawing.Size(100, 20);
+            this.textBox_ContraseOracel.TabIndex = 17;
+            this.textBox_ContraseOracel.UseSystemPasswordChar = true;
+            // 
+            // label_contraseOracle
+            // 
+            this.label_contraseOracle.AutoSize = true;
+            this.label_contraseOracle.Location = new System.Drawing.Point(187, 282);
+            this.label_contraseOracle.Name = "label_contraseOracle";
+            this.label_contraseOracle.Size = new System.Drawing.Size(115, 13);
+            this.label_contraseOracle.TabIndex = 18;
+            this.label_contraseOracle.Text = "Ingrese la contraseña: ";
+            // 
             // Publicar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(517, 277);
+            this.ClientSize = new System.Drawing.Size(632, 309);
+            this.Controls.Add(this.label_contraseOracle);
+            this.Controls.Add(this.textBox_ContraseOracel);
+            this.Controls.Add(this.dataGridView_BDs);
+            this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button_Sus);
             this.Controls.Add(this.richTextBox_SUS);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label_Suscripciones);
             this.Controls.Add(this.dataGridView_BD);
             this.Controls.Add(this.label2);
@@ -210,6 +249,7 @@
             this.Text = "Pulicacion";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Publicar_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_BDs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -227,10 +267,13 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dataGridView_BD;
         private System.Windows.Forms.Label label_Suscripciones;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RichTextBox richTextBox_SUS;
         private System.Windows.Forms.Button button_Sus;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.DataGridView dataGridView_BDs;
+        private System.Windows.Forms.TextBox textBox_ContraseOracel;
+        private System.Windows.Forms.Label label_contraseOracle;
     }
 }
